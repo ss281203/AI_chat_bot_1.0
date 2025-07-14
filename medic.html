@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Health Care Medicine Suggestion</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .navbar {
+            width: 100%;
+            background: #2d6cdf;
+            color: #fff;
+            padding: 18px 0 14px 0;
+            text-align: center;
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            box-shadow: 0 2px 8px rgba(44,108,223,0.08);
+        }
+        .container {
+            max-width: 420px;
+            margin: 50px auto 0 auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(44,108,223,0.13);
+            padding: 38px 38px 30px 38px;
+            position: relative;
+        }
+        h2 {
+            text-align: center;
+            color: #2d6cdf;
+            font-size: 2rem;
+            margin-bottom: 18px;
+            font-weight: 700;
+        }
+        label {
+            display: block;
+            margin: 22px 0 10px;
+            color: #2d6cdf;
+            font-weight: 600;
+            font-size: 1.08rem;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 7px;
+            border: 1.5px solid #b3c6e0;
+            margin-bottom: 22px;
+            font-size: 1rem;
+            background: #f7faff;
+            transition: border 0.2s;
+        }
+        select:focus, input[type="text"]:focus {
+            border: 1.5px solid #2d6cdf;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            background: linear-gradient(90deg, #2d6cdf 60%, #30df2d 100%);
+            color: #fff;
+            border: none;
+            padding: 13px;
+            border-radius: 7px;
+            font-size: 1.08rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(44,108,223,0.08);
+            transition: background 0.2s, transform 0.1s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #30df2d 0%, #2d6cdf 100%);
+            transform: translateY(-2px) scale(1.03);
+        }
+        .suggestion {
+            margin-top: 28px;
+            background: #eaf4ff;
+            padding: 18px;
+            border-radius: 7px;
+            color: #2d6cdf;
+            text-align: center;
+            font-weight: bold;
+            min-height: 32px;
+            font-size: 1.08rem;
+            box-shadow: 0 1px 6px rgba(44,108,223,0.07);
+        }
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            color: #888;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+        .report-section {
+            margin-top: 38px;
+            background: #f7faff;
+            border-radius: 10px;
+            padding: 18px 12px 12px 12px;
+            box-shadow: 0 1px 6px rgba(44,108,223,0.06);
+        }
+        .report-section h3 {
+            text-align: center;
+            color: #2d6cdf;
+            margin-bottom: 12px;
+            font-size: 1.15rem;
+        }
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .report-table th, .report-table td {
+            border: 1px solid #b3c6e0;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .report-table th {
+            background: #eaf4ff;
+            color: #2d6cdf;
+            font-weight: 700;
+        }
+        .most-spreading {
+            text-align: center;
+            color: #30df2d;
+            font-weight: 600;
+            font-size: 1.08rem;
+            margin-top: 8px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                max-width: 98vw;
+                padding: 18px 6vw 18px 6vw;
+            }
+            .navbar {
+                font-size: 1.3rem;
+                padding: 13px 0 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        Health Care Medicine Suggestion
+    </div>
+    <div class="container">
+        <h2>Get Your Medicine Suggestion</h2>
+        <form>
+            <label for="disease">Select Disease</label>
+            <select id="disease" name="disease">
+                <option value="">-- Choose Disease --</option>
+                <option value="cold">Common Cold</option>
+                <option value="fever">Fever</option>
+                <option value="headache">Headache</option>
+                <option value="allergy">Allergy</option>
+                <option value="cough">Cough</option>
+            </select>
+            <button type="button" onclick="suggestMedicine()">Suggest Medicine</button>
+            <a href="report.html" class="back-link" style="display:block;text-align:center;margin-top:18px;color:#2d6cdf;text-decoration:underline;font-weight:600;">View Disease Report &rarr;</a>
+        </form>
+        <div class="suggestion" id="suggestion"></div>
+    </div>
+    <script>
+        // Track patient counts for each disease
+        const diseaseCounts = {
+            cold: 0,
+            fever: 0,
+            headache: 0,
+            allergy: 0,
+            cough: 0
+        };
+
+        function suggestMedicine() {
+            const disease = document.getElementById('disease').value;
+            let suggestion = '';
+            switch(disease) {
+                case 'cold':
+                    suggestion = 'Paracetamol, Cetirizine, or consult your doctor.';
+                    diseaseCounts.cold++;
+                    break;
+                case 'fever':
+                    suggestion = 'Paracetamol, Ibuprofen, or consult your doctor.';
+                    diseaseCounts.fever++;
+                    break;
+                case 'headache':
+                    suggestion = 'Aspirin, Ibuprofen, or consult your doctor.';
+                    diseaseCounts.headache++;
+                    break;
+                case 'allergy':
+                    suggestion = 'Cetirizine, Loratadine, or consult your doctor.';
+                    diseaseCounts.allergy++;
+                    break;
+                case 'cough':
+                    suggestion = 'Dextromethorphan, Cough syrup, or consult your doctor.';
+                    diseaseCounts.cough++;
+                    break;
+                default:
+                    suggestion = 'Please select a disease.';
+            }
+            document.getElementById('suggestion').textContent = suggestion;
+            // Save to localStorage for report page
+            localStorage.setItem('diseaseCounts', JSON.stringify(diseaseCounts));
+            updateReport();
+        }
+
+        function updateReport() {
+            const reportBody = document.getElementById('reportBody');
+            reportBody.innerHTML = '';
+            let max = 0;
+            let maxDisease = [];
+            const diseaseNames = {
+                cold: 'Common Cold',
+                fever: 'Fever',
+                headache: 'Headache',
+                allergy: 'Allergy',
+                cough: 'Cough'
+            };
+            for (const key in diseaseCounts) {
+                const count = diseaseCounts[key];
+                if (count > max) {
+                    max = count;
+                    maxDisease = [diseaseNames[key]];
+                } else if (count === max && count > 0) {
+                    maxDisease.push(diseaseNames[key]);
+                }
+                reportBody.innerHTML += `<tr><td>${diseaseNames[key]}</td><td>${count}</td></tr>`;
+            }
+            const mostSpreading = document.getElementById('mostSpreading');
+            if (max > 0) {
+                mostSpreading.textContent = `Most spreading disease: ${maxDisease.join(', ')} (${max} patients)`;
+            } else {
+                mostSpreading.textContent = '';
+            }
+        }
+
+        // Initialize report on page load
+        window.onload = updateReport;
+    </script>
+</body>
+</html>
